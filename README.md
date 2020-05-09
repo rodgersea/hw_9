@@ -1,6 +1,9 @@
 
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://bitbucket.org/lbesson/ansi-colors)
+[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/rodgersea)
+
 ## Description
-asdf
+this is my new project
 
 ## Table of Contents
 * Installation
@@ -14,23 +17,23 @@ asdf
 To intall necessary dependencies, run the following command:
 
 ```javascript
-asdf
+npm install
 ```
 
 ## Usage
-asdf
+nothing
 
 ## License
 MIT
 
 ## Contributing
-asdf
+be concise
 
 ## Tests
 To run tests, run the following command:
 
 ```javascript
-asdf
+npm run tests
 ```
 
 ## Questions

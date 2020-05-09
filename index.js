@@ -54,6 +54,9 @@ function promptUser() {
 
 function genMD(answers) {
     return `
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)](https://bitbucket.org/lbesson/ansi-colors)
+[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/rodgersea)
+
 ## Description
 ${answers.description}
 
@@ -103,8 +106,6 @@ promptUser()
         const queryUrl = `https://api.github.com/users/${username}`;
 
         axios.get(queryUrl).then(function (res) {
-            console.log(res)
-            console.log(res.data)
             answers.profile = res.data.avatar_url;
             answers.email = res.data.email;
             const MD = genMD(answers);
