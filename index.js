@@ -2,6 +2,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
+const axios = require("axios");
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
@@ -9,43 +10,43 @@ function promptUser() {
     return inquirer.prompt([
         {
             type: "input",
-            name: "Username",
+            name: "username",
             message: "What is your GitHub username?"
         },
         {
             type: "input",
-            name: "Title",
+            name: "title",
             message: "what is the project title?"
         },
         {
             type: "input",
-            name: "Description",
+            name: "description",
             message: "Please write a short description of your project."
         },
         {
             type: "list",
-            name: "License",
+            name: "license",
             message: "What kind of license should your project have?",
             choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"]
         },
         {
             type: "input",
-            name: "Dependencies_Command",
+            name: "dependencies_Command",
             message: "What command should be run to install dependencies?"
         },
         {
             type: "input",
-            name: "Test_Command",
+            name: "test_Command",
             message: "What command should be run to run tests?"
         },
         {
             type: "input",
-            name: "Preface",
+            name: "preface",
             message: "What does the user need to know about using the repo?"
         },
         {
             type: "input",
-            name: "Contribute",
+            name: "contribute",
             message: "What does the user need to know about contributing to the repo?"
         }
     ])
@@ -54,7 +55,7 @@ function promptUser() {
 function genMD(answers) {
     return `
 ## Description
-${answers.Description}
+${answers.description}
 
 ## Table of Contents
 * Installation
@@ -66,49 +67,58 @@ ${answers.Description}
 
 ## Installation
 To intall necessary dependencies, run the following command:
-`
 
-```javascript
-${answers.Dependencies_Command}
-```
+\`\`\`javascript
+${answers.dependencies_Command}
+\`\`\`
 
-`
 ## Usage
-${answers.Preface}
+${answers.preface}
 
 ## License
-${answers.License}
+${answers.license}
 
 ## Contributing
-${answers.Contribute}
+${answers.contribute}
 
 ## Tests
 To run tests, run the following command:
-`
 
-```javascript
-${answers.Test_Command}
-```
+\`\`\`javascript
+${answers.test_Command}
+\`\`\`
 
-`
 ## Questions
-put picture here
-If you have any questions about the repo, open an issue or contact 
-(link to my github)
+<img src="${answers.profile}" width="60" />  
+
+If you have any questions about the repo, open an issue or contact Elliott Rodgers
 directly at
-(link to my email address)
+[${answers.email}](${answers.email})
 `
 }
 
 promptUser()
-    .then(function(answers) {
-        const MD = genMD(answers);
+    .then(function (answers) {
+        const { username } = answers;
+        const queryUrl = `https://api.github.com/users/${username}`;
 
-        return writeFileAsync("README.md", MD);
+        axios.get(queryUrl).then(function (res) {
+            console.log(res)
+            console.log(res.data)
+            answers.profile = res.data.avatar_url;
+            answers.email = res.data.email;
+            const MD = genMD(answers);
+
+            writeFileAsync("README.md", MD)
+                .then(function () {
+                    console.log("Successfully created README");
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+        }).catch(function (err) {
+            console.log(err)
+        })
+
     })
-    .then(function() {
-        console.log("Successfully created README");
-    })
-    .catch(function(err) {
-        console.log(err);
-    })
+
