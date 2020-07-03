@@ -3,7 +3,7 @@
 [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/rodgersea)
 
 ## Description
-this is my new project
+Create a command-line application that dynamically generates a README.md from a user's input. The application will be invoked with the following command:
 
 ## Table of Contents
 * Installation
