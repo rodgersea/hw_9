@@ -9,7 +9,7 @@
   "author": "Elliott Rodgers",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "inquirer": "^6.3.1",
     "terminalizer": "^0.7.2"
   }
